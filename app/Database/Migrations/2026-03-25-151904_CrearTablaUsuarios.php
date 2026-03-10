@@ -1,142 +1,95 @@
 <?php
 
-namespace App\Database\Seeds;
+namespace App\Database\Migrations;
 
-use CodeIgniter\Database\Seeder;
+use CodeIgniter\Database\Migration;
 
-class UsuariosSeeder extends Seeder
+class CrearTablaUsuarios extends Migration
 {
-    public function run()
+    public function up()
     {
-        $data = [
-            [
-                'nombre' => 'NOEMI',
-                'apellidos' => 'TORRES TINEDO',
-                'correo' => '16noemitorres@gmail.com',
-                'telefono' => '963604801',
-                'tipodoc' => 'DNI',
-                'numerodoc' => '76331600',
-                'usuario' => 'ntorres_rf',
-                'clave' => 'rf_76331600',
-                'rol' => 'administrador',
-                'idarea' => null,
-                'esresponsable' => false,
-                'estado' => true,
+        // Crear tipos ENUM en PostgreSQL
+        $this->db->query("CREATE TYPE rol_enum AS ENUM ('administrador', 'empleado', 'cliente')");
+        $this->db->query("CREATE TYPE tipodoc_enum AS ENUM ('DNI', 'RUC', 'CE')");
+
+        $this->forge->addField([
+            'id' => [
+                'type' => 'BIGINT',
+                'auto_increment' => true
             ],
-            [
-                'nombre' => 'SONIA ALEJANDRA',
-                'apellidos' => 'TELLO ROJAS',
-                'correo' => 'satrsonia@gmail.com',
-                'telefono' => '959125670',
-                'tipodoc' => 'DNI',
-                'numerodoc' => '49049820',
-                'usuario' => 'stello_rf',
-                'clave' => 'rf_49049820',
-                'rol' => 'empleado',
-                'idarea' => 2,
-                'esresponsable' => false,
-                'estado' => true,
+            'nombre' => [
+                'type' => 'VARCHAR',
+                'constraint' => 50,
+                'null' => false
             ],
-            [
-                'nombre' => 'JOSE',
-                'apellidos' => 'GUERRA CHACÓN',
-                'correo' => 'isaichachon695@gmail.com',
-                'telefono' => '960733818',
-                'tipodoc' => 'DNI',
-                'numerodoc' => '75187044',
-                'usuario' => 'jguerra_rf',
-                'clave' => 'rf_75187044',
-                'rol' => 'empleado',
-                'idarea' => 2,
-                'esresponsable' => false,
-                'estado' => true,
+            'apellidos' => [
+                'type' => 'VARCHAR',
+                'constraint' => 50,
+                'null' => false
             ],
-            [
-                'nombre' => 'JONATHAN',
-                'apellidos' => 'MEDINA CAMPOS',
-                'correo' => 'paratodoslados.2025@gmail.com',
-                'telefono' => '979127328',
-                'tipodoc' => 'DNI',
-                'numerodoc' => '72324643',
-                'usuario' => 'jmedina_rf',
-                'clave' => 'rf_72324643',
-                'rol' => 'empleado',
-                'idarea' => 2,
-                'esresponsable' => true,
-                'estado' => true,
+            'correo' => [
+                'type' => 'VARCHAR',
+                'constraint' => 100,
+                'null' => false
             ],
-            [
-                'nombre' => 'FABRIZIO',
-                'apellidos' => 'RAMOS TIPISMANA',
-                'correo' => 'fabrz1rt13@gmail.com',
-                'telefono' => '979099569',
-                'tipodoc' => 'DNI',
-                'numerodoc' => '75832420',
-                'usuario' => 'framos_rf',
-                'clave' => 'rf_75832420',
-                'rol' => 'empleado',
-                'idarea' => 1,
-                'esresponsable' => false,
-                'estado' => true,
+            'telefono' => [
+                'type' => 'VARCHAR',
+                'constraint' => 20,
+                'null' => false
             ],
-            [
-                'nombre' => 'NAYRU',
-                'apellidos' => 'GOMEZ MAGALLANES',
-                'correo' => 'magallanesnayru@gmail.com',
-                'telefono' => '902009682',
-                'tipodoc' => 'DNI',
-                'numerodoc' => '71992007',
-                'usuario' => 'ngomez_rf',
-                'clave' => 'rf_71992007',
-                'rol' => 'empleado',
-                'idarea' => 1,
-                'esresponsable' => false,
-                'estado' => true,
+            'tipodoc' => [
+                'type' => 'tipodoc_enum',
+                'null' => true,
             ],
-            [
-                'nombre' => 'JESUS',
-                'apellidos' => 'DE LA CRUZ GARCÍA',
-                'correo' => 'gabrieljesusdelacruzgarcia@gmail.com',
-                'telefono' => '937002191',
-                'tipodoc' => 'DNI',
-                'numerodoc' => '73009277',
-                'usuario' => 'jdelacruz_rf',
-                'clave' => 'rf_73009277',
-                'rol' => 'empleado',
-                'idarea' => 1,
-                'esresponsable' => true,
-                'estado' => true,
+            'numerodoc' => [
+                'type' => 'VARCHAR',
+                'constraint' => 20,
+                'null' => true,
             ],
-            //Clientes Prueba
-            [
-                'nombre' => 'ANA',
-                'apellidos' => 'FLORES QUISPE',
-                'correo' => '62345678@uai.edu.pe',
-                'telefono' => '999888777',
-                'tipodoc' => 'DNI',
-                'numerodoc' => '62345678',
-                'usuario' => 'aflores_rf',
-                'clave' => 'rf_62345678',
-                'rol' => 'cliente',
-                'idarea' => null,
-                'esresponsable' => false,
-                'estado' => true,
+            'usuario' => [
+                'type' => 'VARCHAR',
+                'constraint' => 50,
+                'null' => false
             ],
-            [
-                'nombre' => 'LUIS',
-                'apellidos' => 'MENDOZA RIVAS',
-                'correo' => '62345678@byron.edu.pe',
-                'telefono' => '999666333',
-                'tipodoc' => 'DNI',
-                'numerodoc' => '63456789',
-                'usuario' => 'lmendoza_rf',
-                'clave' => 'rf_63456789',
-                'rol' => 'cliente',
-                'idarea' => null,
-                'esresponsable' => false,
-                'estado' => true,
+            'clave' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => false,
             ],
-        ];
-        $this->db->table('usuarios')->insertBatch($data);
+            'rol' => [
+                'type' => 'rol_enum',
+                'null' => false,
+            ],
+            'idarea' => [
+                'type' => 'BIGINT',
+                'null' => true,
+            ],
+            'esresponsable' => [
+                'type' => 'BOOLEAN',
+                'default' => false,
+            ],
+            'estado' => [
+                'type' => 'BOOLEAN',
+                'default' => true,
+            ],
+            'fechacreacion' => [
+                'type' => 'TIMESTAMP',
+                'null' => true,
+                'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP'),
+            ]
+        ]);
+
+        $this->forge->addPrimaryKey('id');
+        $this->forge->addUniqueKey('correo');
+        $this->forge->addUniqueKey('usuario');
+        $this->forge->addForeignKey('idarea', 'areas', 'id', 'SET NULL', 'CASCADE');
+        $this->forge->createTable('usuarios');
+    }
+
+    public function down()
+    {
+        $this->forge->dropTable('usuarios');
+        $this->db->query("DROP TYPE IF EXISTS rol_enum");
+        $this->db->query("DROP TYPE IF EXISTS tipodoc_enum");
     }
 }
