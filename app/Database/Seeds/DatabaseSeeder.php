@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FormularioPedidosSeeder::class);
         $this->call(PedidosSeeder::class);
         $this->call(ArchivosSeeder::class);
+        $this->call(HistorialPedidosSeeder::class);
     }
 }
