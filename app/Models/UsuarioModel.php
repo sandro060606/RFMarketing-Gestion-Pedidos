@@ -18,6 +18,7 @@ class UsuarioModel extends Model
     // Busca un usuario por su nombre de usuario
     // Solo devuelve el usuario si está activo (estado = true)
     // Devuelve un solo registro o null si no existe
+    
     public function buscarPorUsuario($usuario)
     {
         return $this->where('usuario', $usuario)
