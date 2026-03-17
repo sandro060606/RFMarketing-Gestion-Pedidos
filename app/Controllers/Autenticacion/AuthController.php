@@ -19,33 +19,35 @@ class AuthController extends Controller
     // Recibe los datos del formulario y verifica las credenciales
     // Si son correctas guarda la sesión y redirige según el rol
     // Si son incorrectas regresa al login con un mensaje de error
+    
     public function autenticar()
     {
-        $usuario    = $this->request->getPost('usuario');
+        $usuario = $this->request->getPost('usuario');
         $contrasena = $this->request->getPost('clave');
 
         // Verifica que los campos no estén vacíos
         if (empty($usuario) || empty($contrasena)) {
             return redirect()->to('/login')
-                             ->with('error', 'Completa todos los campos.');
+                ->with('error', 'Completa todos los campos.');
         }
 
-        $modelo    = new UsuarioModel();
+        $modelo = new UsuarioModel();
         $usuarioDB = $modelo->buscarPorUsuario($usuario);
 
         // Verifica que el usuario exista y que la contraseña sea correcta
-        if (!$usuarioDB || !password_verify($contrasena, $usuarioDB['clave'])) {
+        if (!$usuarioDB || $contrasena !== $usuarioDB['clave']) {
             return redirect()->to('/login')
-                             ->with('error', 'Usuario o contraseña incorrectos.');
+                ->with('error', 'Usuario o contraseña incorrectos.');
         }
 
         // Guarda los datos del usuario en la sesión
         session()->set([
-            'id'            => $usuarioDB['id'],
-            'nombre'        => $usuarioDB['nombre'],
-            'apellidos'     => $usuarioDB['apellidos'],
-            'rol'           => $usuarioDB['rol'],
-            'idarea'        => $usuarioDB['idarea'],
+            'autenticado' => true, //Flag q usa el filtro
+            'id' => $usuarioDB['id'],
+            'nombre' => $usuarioDB['nombre'],
+            'apellidos' => $usuarioDB['apellidos'],
+            'rol' => $usuarioDB['rol'],
+            'idarea' => $usuarioDB['idarea'],
             'esresponsable' => $usuarioDB['esresponsable'],
         ]);
 
@@ -63,11 +65,11 @@ class AuthController extends Controller
     private function redirigirPorRol($rol)
     {
         switch ($rol) {
-            case 'Administrador':
+            case 'administrador':
                 return redirect()->to('/admin/panel');
-            case 'Empleado':
+            case 'empleado':
                 return redirect()->to('/empleado/mis-pedidos');
-            case 'Cliente':
+            case 'cliente':
                 return redirect()->to('/cliente/mis-pedidos');
             default:
                 return redirect()->to('/login');
