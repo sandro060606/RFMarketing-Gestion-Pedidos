@@ -23,7 +23,6 @@ $routes->group('admin', ['filter' => 'sesion'], function($routes) {
 
 /* GRUPO CLIENTE */
 $routes->group('cliente',['filter' => 'sesion'] ,function($routes){
-    /* $routes->get('mis-pedidos', 'Home::index'); */
     //Enlace para la Prueba del GET (Lista de Pedidos) en Backend
     $routes->get('mis-pedidos', 'Cliente\MisPedidosController::index');
 });

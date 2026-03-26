@@ -19,7 +19,15 @@ class PedidoModel extends Model
         'titulo',
         'prioridad',
         'estado',
-        'fechacreacion'
+        'num_modificaciones',
+        'observacion_revision',
+        'fechainicio',
+        'horainicio',
+        'fechafin',
+        'horafin',
+        'fechacompletado',
+        'cancelacionmotivo',
+        'fechacancelacion'
     ];
 
     /**
@@ -31,18 +39,17 @@ class PedidoModel extends Model
     {
         return $this->db->table('pedidos p')
             ->select('
-            p.id, 
-            p.titulo, 
-            p.estado, 
-            p.prioridad, 
-            p.fechacreacion,
-            s.nombre AS servicio_nombre
-        ')
+                p.id,p.titulo,p.estado,p.prioridad,p.fechacreacion,
+                p.fechainicio,p.fechafin,p.num_modificaciones,
+                s.nombre  AS servicio,
+                e.nombreempresa AS empresa
+            ')
             ->join('servicios s', 's.id = p.idservicio')
             ->join('formulario_pedidos fp', 'fp.id = p.idformpedido')
             ->join('empresas e', 'e.id = fp.idempresa')
-            ->where('e.idusuario', $idUsuario)  //Filtro de Usuario
+            ->where('e.idusuario', $idUsuario) // Solo pedidos de su empresa (Filtro)
             ->orderBy('p.fechacreacion', 'DESC')
-            ->get()->getResultArray();          //Ejecuta y devuelve como array
+            ->get()
+            ->getResultArray();
     }
 }

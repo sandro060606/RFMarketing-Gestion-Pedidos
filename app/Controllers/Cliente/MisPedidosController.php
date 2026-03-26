@@ -9,27 +9,25 @@ class MisPedidosController extends Controller
 {
     /**
      * Muestra la lista principal de todos los pedidos de la empresa del cliente
-     * @return \CodeIgniter\HTTP\ResponseInterface
      */
     public function index()
-    {   
+    {
+        // Cargamos el helper antes de retornar la vista
+        helper('pedido');
         // Obtener el id del usuario desde la sesión
         $idUsuario = session()->get('id');
-        // Seguridad: si no hay sesión activa, error 401
+        // Seguridad: si no hay sesión activa, retornamos al login
         if (!$idUsuario) {
-            return $this->response->setJSON(['error' => 'No autorizado'])->setStatusCode(401);
+           return redirect()->to('/login');
         }
         // Instanciar el Objeto
         $modelo = new PedidoModel();
         // Solo pedimos la data básica al modelo
         $pedidos = $modelo->listarPorCliente($idUsuario);
-
-        // Retornamos JSON para la de Postman
-        return $this->response->setJSON([
-            'empresa' => 'RF Marketing SAC',
-            'fecha_consulta' => date('Y-m-d H:i:s'),
-            'total_pedidos' => count($pedidos),
-            'lista' => $pedidos
+        //Perpara los Datos para la Vista (Mis Pedidos)
+        return view('cliente/lista', [
+            'titulo' => 'Mis Pedidos',
+            'pedidos' => $pedidos,
         ]);
     }
 }

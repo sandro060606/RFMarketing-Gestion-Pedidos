@@ -13,6 +13,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <!-- CSS Plantilla -->
     <link rel="stylesheet" href="<?= base_url('recursos/styles/plantilla/cliente.css') ?>">
+    <!-- Agregar CSS -->
+    <?= $this->renderSection('estilos') ?>
 </head>
 <body>
 
@@ -156,6 +158,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- JS Plantilla -->
 <script src="<?= base_url('recursos/js/plantilla/cliente.js') ?>"></script>
-
+<!-- Agregar Scrips -->
+<?= $this->renderSection('scripts') ?>
 </body>
 </html>
