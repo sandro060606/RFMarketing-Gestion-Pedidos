@@ -36,6 +36,15 @@ class NotificacionesSeeder extends Seeder
                 'fechaenvio' => '2025-01-31 17:30:00',
                 'tipoalerta' => 'estado',
             ],
+                // Pedido 3 — Ana recibe notif de en_proceso
+            [
+                'idpedido' => 3,
+                'idusuario' => 8,
+                'asunto' => 'Tu pedido está en proceso',
+                'mensaje' => 'Tu pedido Banner Semana de Ciencias UAI 2026 ha sido asignado y está siendo trabajado por nuestro equipo.',
+                'fechaenvio' => '2026-03-21 09:00:00',
+                'tipoalerta' => 'estado',
+            ],
         ];
 
         $this->db->table('notificaciones')->insertBatch($data);

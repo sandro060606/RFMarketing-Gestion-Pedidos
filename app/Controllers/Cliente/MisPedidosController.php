@@ -37,7 +37,7 @@ class MisPedidosController extends Controller
      * @param int $id ID del pedido
      * @return \CodeIgniter\HTTP\ResponseInterface
      */
-    public function detalle(int $id)
+    public function detalle(int $id)    
     {   
         // Obtener el id del usuario desde la sesión
         $idUsuario = session()->get('id');

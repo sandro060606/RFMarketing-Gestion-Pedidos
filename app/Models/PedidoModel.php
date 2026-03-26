@@ -78,8 +78,9 @@ class PedidoModel extends Model
             ->join('servicios s', 's.id = p.idservicio')
             ->where('p.id', $idPedido)
             ->where('e.idusuario', $idUsuario) // seguridad: solo sus pedidos
-            ->get()->getResultArray();
+            ->get()->getRowArray();
     }
+    
     public function contarPorEstado(string $estado): int
     {
         return $this->where('estado', $estado)->countAllResults();
@@ -92,5 +93,6 @@ class PedidoModel extends Model
             ->where('p.estado', $estado)
             ->where('fp.idempresa', $idEmpresa)
             ->countAllResults();
+            
     }
 }

@@ -49,6 +49,36 @@ class HistorialPedidosSeeder extends Seeder
                 'fechamodificacion' => '2025-01-31 17:30:00',
                 'observacion' => 'Entregable aprobado y enviado al cliente',
             ],
+                // Pedido 3 — llegó y admin asignó
+            [
+                'idpedido' => 3,
+                'idusuario' => 1,
+                'rol_snapshot' => 'administrador',
+                'estadoanterior' => null,
+                'estadonuevo' => 'por_aprobar',
+                'fechamodificacion' => '2026-03-20 10:15:00',
+                'observacion' => 'Pedido creado desde formulario',
+            ],
+            [
+                'idpedido' => 3,
+                'idusuario' => 1,
+                'rol_snapshot' => 'administrador',
+                'estadoanterior' => 'por_aprobar',
+                'estadonuevo' => 'en_proceso',
+                'fechamodificacion' => '2026-03-21 09:00:00',
+                'observacion' => 'Asignado a Nayru Gomez para diseño del banner',
+            ],
+
+                // Pedido 4 — solo llegó el formulario
+            [
+                'idpedido' => 4,
+                'idusuario' => 1,
+                'rol_snapshot' => 'administrador',
+                'estadoanterior' => null,
+                'estadonuevo' => 'por_aprobar',
+                'fechamodificacion' => '2026-03-25 08:00:00',
+                'observacion' => 'Pedido creado desde formulario',
+            ],
         ];
         $this->db->table('historial_pedidos')->insertBatch($data);
     }
