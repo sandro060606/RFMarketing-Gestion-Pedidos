@@ -8,25 +8,28 @@ use CodeIgniter\Router\RouteCollection;
 // AUTENTICACION
 
 // Página de inicio redirige al login
-$routes->get('/',       'Autenticacion\AuthController::login');
+$routes->get('/', 'Autenticacion\AuthController::login');
 // Muestra el formulario de login
-$routes->get('/login',  'Autenticacion\AuthController::login');
+$routes->get('/login', 'Autenticacion\AuthController::login');
 // Recibe y procesa los datos del formulario
 $routes->post('/login', 'Autenticacion\AuthController::autenticar');
 // Destruye la sesión y regresa al login
 $routes->get('/logout', 'Autenticacion\AuthController::logout');
 
 /* GRUPO ADMINISTRADOR */
-$routes->group('admin', ['filter' => 'sesion'], function($routes) {
+$routes->group('admin', ['filter' => 'sesion'], function ($routes) {
     $routes->get('panel', 'Administrador\DashboardController::index'); // ← Administrador
 });
 
 /* GRUPO CLIENTE */
-$routes->group('cliente',['filter' => 'sesion'] ,function($routes){
+$routes->group('cliente', ['filter' => 'sesion'], function ($routes) {
+    //Lista de Pedidos
     $routes->get('mis-pedidos', 'Cliente\MisPedidosController::index');
+    //Detalle Pedido (id) - Prueba
+    $routes->get('mis-pedidos/(:num)', 'Cliente\MisPedidosController::detalle/$1');
 });
 
 /* GRUPO EMPLEADO  */
-$routes->group('empleado',['filter' => 'sesion'], function($routes) {
+$routes->group('empleado', ['filter' => 'sesion'], function ($routes) {
     $routes->get('mis-pedidos', 'Empleado\PedidosController::index');
 });
