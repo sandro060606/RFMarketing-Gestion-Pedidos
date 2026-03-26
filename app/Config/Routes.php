@@ -18,12 +18,11 @@ $routes->get('/logout', 'Autenticacion\AuthController::logout');
 
 /* GRUPO ADMINISTRADOR */
 $routes->group('admin', ['filter' => 'sesion'], function($routes) {
-    $routes->get('panel', 'Admin\DashboardController::index');
+    $routes->get('panel', 'Administrador\DashboardController::index'); // ← Administrador
 });
 
 /* GRUPO CLIENTE */
 $routes->group('cliente',['filter' => 'sesion'] ,function($routes){
-    //Enlace para la Prueba del GET (Lista de Pedidos) en Backend
     $routes->get('mis-pedidos', 'Cliente\MisPedidosController::index');
 });
 
