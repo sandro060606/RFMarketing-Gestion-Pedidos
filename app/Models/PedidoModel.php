@@ -52,4 +52,32 @@ class PedidoModel extends Model
             ->get()
             ->getResultArray();
     }
+
+    /**
+     * Obtiene toda la información detallada de un pedido 
+     * (datos del formulario, servicio, empresa y empleado asignado)
+     * @param int $idPedido
+     * @return array|null
+     */
+    public function detallePedido(int $idPedido, int $idUsuario): array|null
+    {
+        return $this->db->table('pedidos p')
+            ->select('
+                p.*,
+                fp.titulo           AS form_titulo,
+                fp.area,fp.objetivo_comunicacion,fp.descripcion,fp.tipo_requerimiento,
+                fp.canales_difusion,fp.publico_objetivo,fp.tiene_materiales,fp.formatos_solicitados,
+                fp.fecharequerida,
+                s.nombre            AS servicio,
+                e.nombreempresa     AS empresa,
+                u.nombre            AS empleado,
+                u.correo            AS correo_empleado')
+            ->join('formulario_pedidos fp', 'fp.id = p.idformpedido')
+            ->join('usuarios u', 'u.id = p.idempleado', 'left') // LEFT: puede no tener empleado aún
+            ->join('empresas e', 'e.id = fp.idempresa')
+            ->join('servicios s', 's.id = p.idservicio')
+            ->where('p.id', $idPedido)
+            ->where('e.idusuario', $idUsuario) // seguridad: solo sus pedidos
+            ->get()->getRowArray();
+    }
 }

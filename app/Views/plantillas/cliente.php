@@ -42,6 +42,7 @@
                 $nombre    = session()->get('nombre') ?? 'U';
                 $apellidos = session()->get('apellidos') ?? '';
                 $rol       = session()->get('rol') ?? 'Cliente';
+                $empresa   = session()->get('empresa');
                 $iniciales = strtoupper(substr($nombre, 0, 1) . substr($apellidos, 0, 1));
             ?>
             <span><?= $iniciales ?></span>

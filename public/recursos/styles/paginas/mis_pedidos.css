@@ -1,7 +1,7 @@
-/* --- Estilos Generales y Tipografía --- */
+/* ── Fuente decorativa para números grandes */
 .bebas { font-family: "Bebas Neue", sans-serif; }
 
-/* --- Sección Títulos con Línea Decorativa --- */
+/* ── Títulos de sección con línea decorativa a la derecha */
 .seccion-titulo {
     font-size: 11px;
     font-weight: 700;
@@ -20,7 +20,7 @@
     background: #1e1e1e;
 }
 
-/* --- Tarjetas de Resumen (Métricas) --- */
+/* ── Tarjetas de métricas (Por Aprobar, En Proceso, etc.) */
 .card {
     background: #111;
     border: 1px solid #1e1e1e;
@@ -28,16 +28,17 @@
     transition: transform 0.2s ease;
 }
 .met-label { font-size: 12px; color: #888; }
-.met-num { font-size: 48px; line-height: 1; letter-spacing: 1px; }
-.met-sub { font-size: 11px; color: #555; }
+.met-num   { font-size: 48px; line-height: 1; letter-spacing: 1px; }
+.met-sub   { font-size: 11px; color: #555; }
 
-/* --- Colores de Estados (Sincronizados con el Helper) --- */
-.amarillo { color: #f5c400; }
-.azul     { color: #60a5fa; }
-.verde    { color: #22c55e; }
-.rojo     { color: #ef4444; }
+/* ── Colores base para números de métricas */
+.amarillo { color: #f5c400; }   /* por aprobar */
+.azul     { color: #60a5fa; }   /* en proceso  */
+.verde    { color: #22c55e; }   /* completado  */
+.rojo     { color: #ef4444; }   /* cancelado   */
+.blanco   { color: #ffffff; }   /* total       */
 
-/* --- Tabla Profesional --- */
+/* ── Tabla principal */
 .tabla-rf { width: 100%; border-collapse: collapse; background: #0a0a0a; }
 .tabla-rf th {
     background: #0d0d0d;
@@ -46,23 +47,37 @@
     text-transform: uppercase;
     padding: 12px;
     border-bottom: 2px solid #1e1e1e;
+    letter-spacing: 1px;
 }
 .tabla-rf td { padding: 15px 12px; border-bottom: 1px solid #161616; color: #eee; }
-.tabla-rf tr:hover { background: rgba(255, 255, 255, 0.03); }
+.tabla-rf tr:hover { background: rgba(255,255,255,0.03); }
 
-/* --- Diseño de Badges --- */
+/* ── Estructura base de los badges (estado y prioridad) */
 .badge-estado, .badge-prio {
+    display: inline-block;
     padding: 4px 12px;
     border-radius: 50px;
     font-size: 10px;
     font-weight: 800;
     letter-spacing: 0.5px;
+    white-space: nowrap;
 }
-.estado-por_aprobar { background: rgba(245, 196, 0, 0.1); color: #f5c400; }
-.estado-completado  { background: rgba(34, 197, 94, 0.1); color: #22c55e; }
-.prio-alta          { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
 
-/* --- Buscador --- */
+/* BADGES DE ESTADO
+   Clases generadas por badge_estado() en pedido_helper.php */
+.estado-por_aprobar  { background: rgba(245,196,0,0.12);   color: #f5c400; }
+.estado-en_proceso   { background: rgba(96,165,250,0.12);  color: #60a5fa; }
+.estado-en_revision  { background: rgba(251,146,60,0.12);  color: #fb923c; }
+.estado-completado   { background: rgba(34,197,94,0.12);   color: #22c55e; }
+.estado-cancelado    { background: rgba(239,68,68,0.12);   color: #ef4444; }
+
+/* BADGES DE PRIORIDAD
+   Clases generadas por badge_prioridad() en pedido_helper.php*/
+.prio-alta   { background: rgba(239,68,68,0.12);   color: #ef4444; }
+.prio-media  { background: rgba(245,196,0,0.12);   color: #f5c400; }
+.prio-baja   { background: rgba(34,197,94,0.12);   color: #22c55e; }
+
+/* ── Buscador */
 .tabla-header {
     padding: 20px;
     background: #0d0d0d;
@@ -73,7 +88,7 @@
 .buscador-wrap {
     position: relative;
     width: 100%;
-    max-width: 300px; /* Limita el ancho para que no ocupe todo */
+    max-width: 300px;
 }
 
 .buscador-wrap i {
@@ -82,6 +97,7 @@
     top: 50%;
     transform: translateY(-50%);
     color: #555;
+    pointer-events: none;   /* el icono no bloquea el click al input */
     transition: color 0.3s ease;
 }
 
@@ -89,19 +105,13 @@
     width: 100%;
     background: #1a1a1a;
     border: 1px solid #333;
-    border-radius: 50px; /* Forma de píldora */
-    padding: 8px 15px 8px 40px; /* Espacio para el icono */
+    border-radius: 50px;
+    padding: 8px 15px 8px 40px;
     color: #fff;
     font-size: 13px;
     outline: none;
     transition: all 0.3s ease;
 }
 
-.input-buscar:focus {
-    border-color: #f5c400; /* Brillo amarillo al escribir */
-    background: #222;
-}
-
-.input-buscar:focus + i {
-    color: #f5c400;
-}
+.input-buscar:focus              { border-color: #f5c400; background: #222; }
+.input-buscar:focus ~ i          { color: #f5c400; }   /* icono amarillo al escribir */

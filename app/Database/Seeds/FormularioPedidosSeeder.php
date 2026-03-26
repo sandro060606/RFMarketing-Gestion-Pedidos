@@ -40,7 +40,39 @@ class FormularioPedidosSeeder extends Seeder
                 'formato_otros' => null,
                 'fecharequerida' => '2026-03-25 00:00:00',
                 'prioridad' => 'media',
-            ]
+            ],
+            [
+                'idempresa' => 1,        // Universidad Autonoma de Ica
+                'idservicio' => 1,        // Diseño
+                'titulo' => 'Banner Semana de Ciencias 2026',
+                'area' => 'Vicerrectorado Academico',
+                'objetivo_comunicacion' => 'Difundir la Semana de Ciencias 2026 entre estudiantes y docentes de la UAI',
+                'descripcion' => 'Banner para evento Semana de Ciencias. Incluir logo UAI, fechas del evento (del 20 al 24 de abril 2026) y colores institucionales. Tono academico y motivador.',
+                'tipo_requerimiento' => 'Creacion de Arte',
+                'canales_difusion' => '["Redes sociales", "Banner físico", "SIGU o Aula Virtual Estudiantes"]',
+                'publico_objetivo' => 'Estudiantes y docentes UAI. Tono institucional.',
+                'tiene_materiales' => false,    // sin archivos adjuntos
+                'formatos_solicitados' => '["Afiche A4", "Post de Facebook/Instagram"]',
+                'formato_otros' => null,
+                'fecharequerida' => '2026-04-18 00:00:00',
+                'prioridad' => 'media',
+            ],
+            [
+                'idempresa' => 1,        // Universidad Autonoma de Ica
+                'idservicio' => 1,        // Diseño
+                'titulo' => 'Post Convocatoria Docentes 2026',
+                'area' => 'Recursos Humanos',
+                'objetivo_comunicacion' => 'Comunicar convocatoria abierta para docentes en todas las facultades UAI',
+                'descripcion' => 'Post para convocatoria docente 2026. Incluir cargo, requisitos generales, fecha limite de postulacion (30 de abril 2026) y correo de contacto. Logo UAI obligatorio.',
+                'tipo_requerimiento' => 'Creacion de Arte',
+                'canales_difusion' => '["Redes sociales", "Página web"]',
+                'publico_objetivo' => 'Profesionales y docentes externos. Tono formal.',
+                'tiene_materiales' => false,
+                'formatos_solicitados' => '["Post de Facebook/Instagram", "Historia Facebook/Instagram"]',
+                'formato_otros' => null,
+                'fecharequerida' => '2026-04-15 00:00:00',
+                'prioridad' => 'alta',
+            ],
         ];
 
         $this->db->table('formulario_pedidos')->insertBatch($data);

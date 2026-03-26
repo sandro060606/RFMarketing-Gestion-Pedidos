@@ -2,6 +2,7 @@
 namespace App\Controllers\Autenticacion;
 
 use App\Models\UsuarioModel;
+use App\Models\EmpresaModel;
 use CodeIgniter\Controller;
 
 class AuthController extends Controller
@@ -19,7 +20,7 @@ class AuthController extends Controller
     // Recibe los datos del formulario y verifica las credenciales
     // Si son correctas guarda la sesión y redirige según el rol
     // Si son incorrectas regresa al login con un mensaje de error
-    
+
     public function autenticar()
     {
         $usuario = $this->request->getPost('usuario');
@@ -40,6 +41,13 @@ class AuthController extends Controller
                 ->with('error', 'Usuario o contraseña incorrectos.');
         }
 
+        $nombreEmpresa = null;
+        if (in_array($usuarioDB['rol'], ['cliente'])) {
+            $empresaModel = new EmpresaModel();
+            $empresa = $empresaModel->where('idusuario', $usuarioDB['id'])->first();
+            $nombreEmpresa = $empresa['nombreempresa'] ?? null;
+        }
+
         // Guarda los datos del usuario en la sesión
         session()->set([
             'autenticado' => true, //Flag q usa el filtro
@@ -49,6 +57,7 @@ class AuthController extends Controller
             'rol' => $usuarioDB['rol'],
             'idarea' => $usuarioDB['idarea'],
             'esresponsable' => $usuarioDB['esresponsable'],
+            'empresa' => $nombreEmpresa,
         ]);
 
         return $this->redirigirPorRol($usuarioDB['rol']);
