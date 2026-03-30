@@ -103,5 +103,69 @@
 <?php endif ?>
 
 
+<p class="seccion-titulo">Estadísticas</p>
 
+<div class="row g-2 pb-4">
+
+    <!-- Barras por empresa -->
+    <div class="col-7">
+        <div class="card p-3 h-100 d-flex flex-column">
+            <div class="graf-titulo">Pedidos por empresa</div>
+            <div class="barras-wrap" style="overflow-x:auto; flex:1; align-items:flex-end;">
+                <?php
+                $totales = array_map(fn($e) => $e['por_aprobar'] + $e['activos'] + $e['completados'], $empresas);
+                $max     = max(1, ...$totales);
+                foreach ($empresas as $i => $e):
+                    $h = round($totales[$i] / $max * 100);
+                ?>
+                <div class="barra-col" style="min-width:50px;">
+                    <div class="barra-num" style="color:<?= $e['color'] ?>"><?= $totales[$i] ?></div>
+                    <div class="barra-fill" style="height:<?= $h ?>%;background:<?= $e['color'] ?>"></div>
+                    <div class="barra-label"><?= esc($e['nombreempresa']) ?></div>
+                </div>
+                <?php endforeach ?>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donut estado general -->
+    <div class="col-5">
+        <div class="card p-3 h-100 d-flex flex-column justify-content-center">
+            <div class="graf-titulo">Estado general</div>
+            <div class="d-flex align-items-center justify-content-center gap-3">
+                <?php
+                $offset    = 0;
+                $segmentos = [
+                    ['color' => '#22c55e', 'pct' => $pctCompletados, 'label' => 'Completados'],
+                    ['color' => '#F5C400', 'pct' => $pctActivos,     'label' => 'Activos'],
+                    ['color' => '#c084fc', 'pct' => $pctPorAprobar,  'label' => 'Por Aprobar'],
+                ];
+                ?>
+                <svg width="86" height="86" viewBox="0 0 100 100" style="flex-shrink:0">
+                    <circle cx="50" cy="50" r="38" fill="none" stroke="#1e1e1e" stroke-width="13"/>
+                    <?php foreach ($segmentos as $s): ?>
+                        <circle cx="50" cy="50" r="38" fill="none"
+                            stroke="<?= $s['color'] ?>" stroke-width="13"
+                            stroke-dasharray="<?= $s['pct'] * 2.39 ?> 239"
+                            stroke-dashoffset="-<?= $offset ?>"
+                            transform="rotate(-90 50 50)"/>
+                        <?php $offset += $s['pct'] * 2.39 ?>
+                    <?php endforeach ?>
+                    <text x="50" y="46" text-anchor="middle" fill="#fff" font-family="Bebas Neue" font-size="15"><?= $totalPedidos ?></text>
+                    <text x="50" y="57" text-anchor="middle" fill="#888" font-size="7">TOTAL</text>
+                </svg>
+                <div class="donut-leyenda">
+                    <?php foreach ($segmentos as $s): ?>
+                    <div class="leyenda-fila">
+                        <span class="leyenda-punto" style="background:<?= $s['color'] ?>"></span>
+                        <span style="color:#eee"><?= $s['label'] ?></span>
+                        <span class="leyenda-pct"><?= $s['pct'] ?>%</span>
+                    </div>
+                    <?php endforeach ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 <?= $this->endSection() ?>

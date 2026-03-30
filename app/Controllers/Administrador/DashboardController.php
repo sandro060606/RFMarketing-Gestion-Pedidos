@@ -14,21 +14,26 @@ class DashboardController extends Controller
         $pedidoModel = new PedidoModel();
         $empresaModel = new EmpresaModel();
         $areaModel = new AreaModel();
+        $porAprobar  = $pedidoModel->contarPorEstado('por_aprobar');
+        $activos     = $pedidoModel->contarPorEstado('en_proceso');
+        $completados = $pedidoModel->contarPorEstado('completado');
+        $total       = max(1, $porAprobar + $activos + $completados);
 
         return view('administrador/panel/index', [
             'titulo' => 'Dashboard',
             'tituloPagina' => 'DASHBOARD',
             'paginaActual' => 'dashboard',
 
-            // Tarjetas del resumen
-            'porAprobar' => $pedidoModel->contarPorEstado('por_aprobar'),
-            'activos' => $pedidoModel->contarPorEstado('en_proceso'),
-            'enRevision' => $pedidoModel->contarPorEstado('en_revision'),
-            'completados' => $pedidoModel->contarPorEstado('completado'),
-
-            // Para la sección de empresas
-            'empresas' => $empresaModel->obtenerConStats(),
-            'areas' => $areaModel->obtenerActivas(),
+            'porAprobar'     => $porAprobar,
+            'activos'        => $activos,
+            'enRevision'     => $pedidoModel->contarPorEstado('en_revision'),
+            'completados'    => $completados,
+            'empresas'       => $empresaModel->obtenerConStats(),
+            'areas'          => $areaModel->obtenerActivas(),
+            'totalPedidos'   => $total,
+            'pctActivos'     => round($activos     / $total * 100),
+            'pctPorAprobar'  => round($porAprobar  / $total * 100),
+            'pctCompletados' => round($completados / $total * 100),
         ]);
     }
 }
