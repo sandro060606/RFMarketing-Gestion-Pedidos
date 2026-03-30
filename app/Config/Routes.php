@@ -33,6 +33,9 @@ $routes->group('cliente', ['filter' => 'sesion'], function ($routes) {
     //Notificaciones
     $routes->get('notificaciones', 'Cliente\NotificacionesController::index');
     $routes->get('notificaciones/listar', 'Cliente\NotificacionesController::getNotificaciones');
+
+    //Formulario Pedidos
+    $routes->get('nuevo-pedido', 'Cliente\FormularioController::getServicios');
 });
 
 /* GRUPO EMPLEADO  */
