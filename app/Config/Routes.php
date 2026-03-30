@@ -26,6 +26,9 @@ $routes->group('cliente', ['filter' => 'sesion'], function ($routes) {
     $routes->get('/', 'Cliente\MisPedidosController::index');
     $routes->get('pedidos/listar', 'Cliente\MisPedidosController::listarPedido');
     $routes->get('pedidos/detalle/(:num)', 'Cliente\MisPedidosController::detallePedido/$1');
+
+    //Prueba Notificaciones Get
+    $routes->get('notificaciones/listar', 'Cliente\NotificacionesController::getNotificaciones');
 });
 
 /* GRUPO EMPLEADO  */
