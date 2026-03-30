@@ -23,10 +23,9 @@ $routes->group('admin', ['filter' => 'sesion'], function ($routes) {
 
 /* GRUPO CLIENTE */
 $routes->group('cliente', ['filter' => 'sesion'], function ($routes) {
-    //Lista de Pedidos
-    $routes->get('mis-pedidos', 'Cliente\MisPedidosController::index');
-    //Detalle Pedido (id) - Prueba
-    $routes->get('mis-pedidos/(:num)', 'Cliente\MisPedidosController::detalle/$1');
+    $routes->get('/', 'Cliente\MisPedidosController::index');
+    $routes->get('pedidos/listar', 'Cliente\MisPedidosController::listarPedido');
+    $routes->get('pedidos/detalle/(:num)', 'Cliente\MisPedidosController::detallePedido/$1');
 });
 
 /* GRUPO EMPLEADO  */

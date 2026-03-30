@@ -1,71 +1,67 @@
 <?php
-
 namespace App\Controllers\Cliente;
 
 use CodeIgniter\Controller;
-use App\Models\EmpresaModel;
-use App\Models\PedidoModel; //Llamar al Modelo Pedido (Info)
+use App\Models\PedidoModel;
 
 class MisPedidosController extends Controller
 {
     /**
-     * Muestra la lista principal de todos los pedidos de la empresa del cliente
+     * Solo carga la vista HTML
+     * @return string|\CodeIgniter\HTTP\RedirectResponse
      */
     public function index()
     {
-        // Cargamos el helper antes de retornar la vista
-        helper('pedido');
-        // Obtener el id del usuario desde la sesión
         $idUsuario = session()->get('id');
-        // Seguridad: si no hay sesión activa, retornamos al login
-        if (!$idUsuario) {
+        if (!$idUsuario)
             return redirect()->to('/login');
-        }
-        // Instanciar el Objeto
-        $modelo = new PedidoModel();
-        // Solo pedimos la data básica al modelo
-        $pedidos = $modelo->listarPorCliente($idUsuario);
-        //Perpara los Datos para la Vista (Mis Pedidos)
-        return view('cliente/lista', [
-            'titulo' => 'Mis Pedidos',
-            'pedidos' => $pedidos,
-        ]);
+
+        return view('cliente/index', ['titulo' => 'Mis Pedidos']);
     }
 
     /**
-     * Obtiene el detalle de un pedido específico para el usuario actual
-     * @param int $id ID del pedido
+     * Busca los pedidos en BD y los devuelve como JSON
      * @return \CodeIgniter\HTTP\ResponseInterface
      */
-    public function detalle(int $id)    
-    {   
-        // Obtener el id del usuario desde la sesión
+    public function listarPedido()
+    {
+        // Verificar sesión — si no hay, responder con error 401
         $idUsuario = session()->get('id');
         if (!$idUsuario) {
-            return $this->jsonError('No autenticado', 401);
+            return $this->response->setStatusCode(401)->setJSON(['ok' => false, 'mensaje' => 'No autenticado']);
         }
-        // Instanciamos el modelo     
+        // Instanciar el modelo de pedidos
         $modelo = new PedidoModel();
-        //// Ejecutamos el método detallePedido (Pasando en IdUsuario y el IdPedido)
-        $pedido = $modelo->detallePedido($id, $idUsuario);
-
-        if (!$pedido) {
-            return $this->jsonError('Pedido no encontrado', 404);
-        }
-
-        // Responde con el pedido en JSON
-        return $this->response
-            ->setStatusCode(200)
-            ->setJSON([
-                'pedido' => $pedido,
-            ]);
+        // Ejecutar la consulta SQL con JOIN (ver PedidoModel::listarPedido)
+        $pedidos = $modelo->listarPedido($idUsuario);
+        // Devolver el array como JSON — status 200 por defecto
+        return $this->response->setJSON($pedidos);
     }
 
-    // Respuesta de error (JSON) / BACKEND
-    private function jsonError(string $mensaje, int $codigo = 400)
+    /**
+     * Busca UN pedido específico y lo devuelve como JSON
+     * @param int $id
+     * @return string|\CodeIgniter\HTTP\RedirectResponse
+     */
+    public function detallePedido(int $id)
     {
-        return $this->response
-            ->setStatusCode($codigo)
-            ->setJSON(['ok' => false, 'mensaje' => $mensaje]);
+        // Verificar sesión activa
+        $idUsuario = session()->get('id');
+        if (!$idUsuario) { return redirect()->to('/login');}
+        // Cargar helper para badges y formato de fechas en la vista
+        helper('pedido');
+        // Instanciar el modelo
+        $modelo = new PedidoModel();
+        // Buscar el pedido completo con todos los JOINs
+        $pedido = $modelo->detallePedido($id, $idUsuario);
+        // Si no se encontró el pedido → redirigir a la lista con mensaje
+        if (!$pedido) {
+            return redirect()->to('/cliente')->with('error', 'Pedido no encontrado');
+        }
+        // Pasar los datos a la vista de detalle
+        return view('cliente/detalle', [
+            'titulo'  => 'Detalle del Pedido',
+            'pedido'  => $pedido,
+        ]);
     }
 }

@@ -79,7 +79,7 @@ class AuthController extends Controller
             case 'empleado':
                 return redirect()->to('/empleado/mis-pedidos');
             case 'cliente':
-                return redirect()->to('/cliente/mis-pedidos');
+                return redirect()->to('/cliente');
             default:
                 return redirect()->to('/login');
         }

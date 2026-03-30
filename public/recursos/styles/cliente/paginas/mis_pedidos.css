@@ -115,3 +115,33 @@
 
 .input-buscar:focus              { border-color: #f5c400; background: #222; }
 .input-buscar:focus ~ i          { color: #f5c400; }   /* icono amarillo al escribir */
+
+/* Modal RF */
+.modal-rf         { background: #111; border: 1px solid #222; color: #eee; }
+.modal-rf-header  { background: #141414; border-bottom: 1px solid #222; }
+.modal-rf-footer  { background: #141414; border-top: 1px solid #222; }
+.modal-rf-body    { background: #111; }
+
+/* Info panel lateral del modal */
+.info-panel   { background: #0d0d0d; border: 1px solid #1e1e1e; border-radius: 10px; padding: 16px; }
+.info-item    { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #1a1a1a; }
+.info-item:last-child { border-bottom: none; }
+.info-item > i  { font-size: 15px; color: #444; margin-top: 2px; flex-shrink: 0; }
+.info-label   { display: block; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #555; margin-bottom: 3px; }
+.info-valor   { display: block; font-size: 13px; color: #ccc; }
+
+/* Tags canales/formatos */
+.tags-wrap  { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag-item   { font-size: 11px; font-weight: 600; color: #aaa; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 6px; padding: 5px 12px; }
+
+/* Skeleton */
+.sk-line    { height: 14px; background: linear-gradient(90deg,#1a1a1a 25%,#222 50%,#1a1a1a 75%); background-size: 200% 100%; border-radius: 6px; animation: shimmer 1.4s infinite; margin-bottom: 10px; }
+.sk-title   { width: 60%; height: 20px; }
+.sk-med     { width: 45%; }
+.sk-short   { width: 30%; }
+.sk-full    { width: 100%; }
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* Campo */
+.campo-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #555; display: block; margin-bottom: 6px; }
+.campo-valor { font-size: 13px; color: #ccc; line-height: 1.6; margin: 0; }

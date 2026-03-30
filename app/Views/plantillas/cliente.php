@@ -59,8 +59,8 @@
         <p class="nav-section-label">MI CUENTA</p>
         <ul>
             <li>
-                <a href="<?= base_url('cliente/mis-pedidos') ?>"
-                   class="nav-link-item <?= (uri_string() == 'cliente/mis-pedidos') ? 'active' : '' ?>">
+                <a href="<?= base_url('cliente/') ?>"
+                   class="nav-link-item <?= (uri_string() == 'cliente/') ? 'active' : '' ?>">
                     <span class="nav-icon"><i class="bi bi-briefcase"></i></span>
                     <span class="nav-text">Mis Pedidos</span>
                     <!-- Badge de pedidos pendientes — dinámico -->

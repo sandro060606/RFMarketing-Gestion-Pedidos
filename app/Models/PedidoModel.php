@@ -35,22 +35,23 @@ class PedidoModel extends Model
      * @param int $idUsuario
      * @return array
      */
-    public function listarPorCliente(int $idUsuario): array
+    public function listarPedido(int $idUsuario)
     {
-        return $this->db->table('pedidos p')
-            ->select('
-                p.id,p.titulo,p.estado,p.prioridad,p.fechacreacion,
-                p.fechainicio,p.fechafin,p.num_modificaciones,
-                s.nombre  AS servicio,
-                e.nombreempresa AS empresa
-            ')
-            ->join('servicios s', 's.id = p.idservicio')
-            ->join('formulario_pedidos fp', 'fp.id = p.idformpedido')
-            ->join('empresas e', 'e.id = fp.idempresa')
-            ->where('e.idusuario', $idUsuario) // Solo pedidos de su empresa (Filtro)
-            ->orderBy('p.fechacreacion', 'DESC')
-            ->get()
-            ->getResultArray();
+        $sql = "
+        SELECT 
+            p.id, p.titulo, p.estado, p.prioridad, p.fechacreacion, 
+            p.fechainicio, p.fechafin, p.num_modificaciones,
+            s.nombre AS servicio,
+            e.nombreempresa AS empresa
+        FROM pedidos p
+        INNER JOIN servicios s ON s.id = p.idservicio
+        INNER JOIN formulario_pedidos fp ON fp.id = p.idformpedido
+        INNER JOIN empresas e ON e.id = fp.idempresa
+        WHERE e.idusuario = ?
+        ORDER BY p.fechacreacion DESC
+    ";
+        // Se usa el ? para evitar inyecciones SQL
+        return $this->db->query($sql, [$idUsuario])->getResultArray();
     }
 
     /**
@@ -61,26 +62,34 @@ class PedidoModel extends Model
      */
     public function detallePedido(int $idPedido, int $idUsuario): array|null
     {
-        return $this->db->table('pedidos p')
-            ->select('
-                p.*,
-                fp.titulo           AS form_titulo,
-                fp.area,fp.objetivo_comunicacion,fp.descripcion,fp.tipo_requerimiento,
-                fp.canales_difusion,fp.publico_objetivo,fp.tiene_materiales,fp.formatos_solicitados,
-                fp.fecharequerida,
-                s.nombre            AS servicio,
-                e.nombreempresa     AS empresa,
-                u.nombre            AS empleado,
-                u.correo            AS correo_empleado')
-            ->join('formulario_pedidos fp', 'fp.id = p.idformpedido')
-            ->join('usuarios u', 'u.id = p.idempleado', 'left') // LEFT: puede no tener empleado aún
-            ->join('empresas e', 'e.id = fp.idempresa')
-            ->join('servicios s', 's.id = p.idservicio')
-            ->where('p.id', $idPedido)
-            ->where('e.idusuario', $idUsuario) // seguridad: solo sus pedidos
-            ->get()->getRowArray();
+        $sql = "
+        SELECT 
+            p.*, 
+            fp.titulo AS form_titulo, 
+            fp.area, 
+            fp.objetivo_comunicacion, 
+            fp.descripcion, 
+            fp.tipo_requerimiento, 
+            fp.canales_difusion, 
+            fp.publico_objetivo, 
+            fp.tiene_materiales, 
+            fp.formatos_solicitados, 
+            fp.fecharequerida, 
+            s.nombre AS servicio, 
+            e.nombreempresa AS empresa, 
+            u.nombre AS empleado, 
+            u.correo AS correo_empleado
+        FROM pedidos p
+        INNER JOIN formulario_pedidos fp ON fp.id = p.idformpedido
+        LEFT JOIN usuarios u ON u.id = p.idempleado
+        INNER JOIN empresas e ON e.id = fp.idempresa
+        INNER JOIN servicios s ON s.id = p.idservicio
+        WHERE p.id = ? AND e.idusuario = ?
+    ";
+        // El primer ? es $idPedido, el segundo ? es $idUsuario
+        return $this->db->query($sql, [$idPedido, $idUsuario])->getRowArray();
     }
-    
+
     public function contarPorEstado(string $estado): int
     {
         return $this->where('estado', $estado)->countAllResults();
@@ -93,6 +102,6 @@ class PedidoModel extends Model
             ->where('p.estado', $estado)
             ->where('fp.idempresa', $idEmpresa)
             ->countAllResults();
-            
+
     }
 }

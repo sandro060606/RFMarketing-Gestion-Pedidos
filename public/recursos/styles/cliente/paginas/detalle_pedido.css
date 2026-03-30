@@ -1,0 +1,162 @@
+/* ── Fuente decorativa */
+.bebas { font-family: "Bebas Neue", sans-serif; }
+
+/* ── Título de sección con línea decorativa */
+.seccion-titulo {
+    font-size: 11px;
+    font-weight: 700;
+    color: #666;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 25px 0 15px 0;
+}
+.seccion-titulo::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #1e1e1e;
+}
+/* ── Tarjeta oscura base */
+.card {
+    background: #111;
+    border: 1px solid #1e1e1e;
+    border-radius: 12px;
+}
+
+/* CABECERA DEL DETALLE */
+/* Tag del servicio (Diseño / AudioVisual) */
+.servicio-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #666;
+    padding: 3px 10px;
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+/* Badges de estado — copiados de mis_pedidos.css */
+.badge-estado, .badge-prio {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/* Estados */
+.estado-por_aprobar { background: rgba(245,196,0,0.12);  color: #f5c400; }
+.estado-en_proceso  { background: rgba(96,165,250,0.12); color: #60a5fa; }
+.estado-en_revision { background: rgba(251,146,60,0.12); color: #fb923c; }
+.estado-completado  { background: rgba(34,197,94,0.12);  color: #22c55e; }
+.estado-cancelado   { background: rgba(239,68,68,0.12);  color: #ef4444; }
+
+/* Prioridades */
+.prio-alta  { background: rgba(239,68,68,0.12);  color: #ef4444; }
+.prio-media { background: rgba(245,196,0,0.12);  color: #f5c400; }
+.prio-baja  { background: rgba(34,197,94,0.12);  color: #22c55e; }
+
+/* TARJETA IZQUIERDA — Título, objetivo, brief */
+/* Título principal del pedido */
+.detalle-titulo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f0f0f0;
+    line-height: 1.3;
+    margin-bottom: 4px;
+}
+/* Nombre de la empresa debajo del título */
+.detalle-empresa {
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 0;
+}
+/* Línea separadora interna */
+.detalle-sep {
+    height: 1px;
+    background: #1e1e1e;
+}
+/* Bloque de cada campo (objetivo, público, descripción) */
+.detalle-campo {
+    margin-bottom: 20px;
+}
+.detalle-campo:last-child { margin-bottom: 0; }
+/* Label gris pequeño encima del valor */
+.campo-label {
+    display: block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 6px;
+}
+/* Texto del valor del campo */
+.campo-valor {
+    font-size: 13px;
+    color: #ccc;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ARJETA DERECHA — Datos técnicos*/
+/* Cada fila de info (icono + label + valor) */
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #1a1a1a;
+}
+.info-item:last-of-type { border-bottom: none; }
+/* Icono de cada item */
+.info-item > i {
+    font-size: 15px;
+    color: #444;
+    margin-top: 2px;
+    flex-shrink: 0;
+    width: 18px;
+    text-align: center;
+}
+/* Label pequeño arriba */
+.info-label {
+    display: block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 3px;
+}
+/* Valor del dato */
+.info-valor {
+    display: block;
+    font-size: 13px;
+    color: #ccc;
+}
+
+/* TAGS — Canales y Formatos*/
+
+/* Contenedor de tags en fila */
+.tags-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+/* Cada tag individual */
+.tag-item {
+    font-size: 11px;
+    font-weight: 600;
+    color: #aaa;
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+    padding: 5px 12px;
+    white-space: nowrap;
+}
