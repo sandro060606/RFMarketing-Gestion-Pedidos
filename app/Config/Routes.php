@@ -23,11 +23,15 @@ $routes->group('admin', ['filter' => 'sesion'], function ($routes) {
 
 /* GRUPO CLIENTE */
 $routes->group('cliente', ['filter' => 'sesion'], function ($routes) {
+    //Vista Principal Index
     $routes->get('/', 'Cliente\MisPedidosController::index');
     $routes->get('pedidos/listar', 'Cliente\MisPedidosController::listarPedido');
+
+    //Detalle Pedido
     $routes->get('pedidos/detalle/(:num)', 'Cliente\MisPedidosController::detallePedido/$1');
 
-    //Prueba Notificaciones Get
+    //Notificaciones
+    $routes->get('notificaciones', 'Cliente\NotificacionesController::index');
     $routes->get('notificaciones/listar', 'Cliente\NotificacionesController::getNotificaciones');
 });
 

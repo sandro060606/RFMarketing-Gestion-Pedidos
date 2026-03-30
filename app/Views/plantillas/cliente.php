@@ -81,8 +81,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= base_url('cliente/notificaciones/listar') ?>"
-                        class="nav-link-item <?= (uri_string() == 'cliente/notificaciones/listar') ? 'active' : '' ?>">
+                    <a href="<?= base_url('cliente/notificaciones') ?>"
+                        class="nav-link-item <?= (uri_string() == 'cliente/notificaciones') ? 'active' : '' ?>">
                         <span class="nav-icon"><i class="bi bi-bell"></i></span>
                         <span class="nav-text">Notificaciones</span>
                         <?php if (isset($notif_no_leidas) && $notif_no_leidas > 0): ?>
@@ -127,7 +127,7 @@
 
             <div class="topbar-right">
                 <!-- Notificaciones -->
-                <a href="<?= base_url('cliente/notificaciones/listar') ?>" class="topbar-icon-btn notif-btn">
+                <a href="<?= base_url('cliente/notificaciones') ?>" class="topbar-icon-btn notif-btn">
                     <i class="bi bi-bell"></i>
                     <?php if (isset($notif_no_leidas) && $notif_no_leidas > 0): ?>
                         <span class="notif-dot"></span>
