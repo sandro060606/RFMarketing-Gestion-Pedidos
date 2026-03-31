@@ -4,6 +4,7 @@
 <?= $this->endSection() ?>
 <!-- Extiende la plantilla base-->
 <?= $this->extend('plantillas/cliente') ?>
+<!-- Contenido Principal -->
 <?= $this->section('contenido') ?>
 
 <!-- ── Encabezado de página -->
@@ -16,12 +17,13 @@
         </h2>
         <p class="small mb-0" style="color:#aaa;">Cliente — Historial de requerimientos</p>
     </div>
-    <a href="<?= base_url('cliente/nuevo-pedido') ?>" class="btn-rf">
+    <!-- Boton para el Modal Servicios -->
+    <button class="btn-rf" data-bs-toggle="modal" data-bs-target="#modal-nuevo-pedido">
         <i class="bi bi-plus-lg"></i> Nuevo Pedido
-    </a>
+    </button>
 </div>
 
-<!-- Métricas resumen -->
+<!-- Métricas resumen: Contadores por estado -->
 <div class="seccion-titulo" style="font-size:14px;">RESUMEN</div>
 <div class="row g-2 mb-4">
     <div class="col-6 col-md-3">
@@ -54,10 +56,10 @@
     </div>
 </div>
 
-<!-- Tabla de pedidosh -->
+<!-- Tabla de pedidos:Historial de Pedidos -->
 <div class="seccion-titulo" style="font-size:14px;">TODOS LOS PEDIDOS</div>
 <div class="card" style="overflow:hidden;">
-
+    <!-- Header con buscador -->
     <div class="tabla-header">
         <div class="buscador-wrap">
             <i class="bi bi-search"></i>
@@ -84,9 +86,38 @@
     </div>
 
 </div>
+<!-- Modal Seleccion de Servicios -->
+<div class="modal fade" id="modal-nuevo-pedido" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-rf">
+            <div class="modal-header modal-rf-header">
+                <div>
+                    <p class="campo-label mb-1">NUEVO PEDIDO</p>
+                    <h5 class="modal-title mb-0">Selecciona el tipo de servicio</h5>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body modal-rf-body p-4">
 
+                <!-- Skeleton -->
+                <div id="sk-servicios">
+                    <div class="sk-line sk-full mb-3" style="height:80px; border-radius:10px;"></div>
+                    <div class="sk-line sk-full" style="height:80px; border-radius:10px;"></div>
+                </div>
+                <!-- Cards de servicios — JS las pinta -->
+                <div id="lista-servicios" style="display:none;">
+                    <!-- JS inserta aquí las cards -->
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    const base_url = "<?= base_url() ?>/";
+</script>
 <?= $this->endSection() ?>
-
 <!-- JS de esta página -->
 <?= $this->section('scripts') ?>
 <script src="<?= base_url('recursos/js/cliente/paginas/mis-pedidos.js') ?>"></script>

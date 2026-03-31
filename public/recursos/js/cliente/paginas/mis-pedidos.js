@@ -2,6 +2,80 @@ document.addEventListener("DOMContentLoaded", function () {
   // Referencias al DOM
   const tabla = document.getElementById("content-pedidos"); //
   const buscador = document.getElementById("buscador"); //
+  const skeleton = document.getElementById("sk-servicios"); //
+  const lista = document.getElementById("lista-servicios"); //
+  const modal = document.getElementById("modal-nuevo-pedido"); //
+
+  // Iconos y colores por servicio
+  const servicioConfig = {
+    Diseño: { icono: "bi-palette", color: "#f5c400" },
+    AudioVisual: { icono: "bi-camera-video", color: "#60a5fa" },
+  };
+
+
+  /**
+   * Obtiene servicios activos desde el backend y los pinta como cards
+   */
+  async function cargarServicios() {
+    // Mostrar skeleton (animación de barras grises)
+    skeleton.style.display = "block";
+    // Ocultar lista anterior (si existía)
+    lista.style.display = "none";
+    // Limpiar HTML anterior
+    lista.innerHTML = "";
+
+    try {   
+      //Solicitar servicios al backend 
+      const res = await fetch(`${base_url}cliente/nuevo-pedido/servicios`);
+      // Validar respuesta HTTP
+      if (res.status !== 200){ throw new Error("Error al cargar");}
+      // Convertir respuesta HTTP a array de objetos JavaScript
+      const data = await res.json();
+      // Pintar Cards de Servicios
+      data.forEach((s) => {
+        // Obtener (icono, color) del servicio desde servicioConfig, Si no existe en config → usar defaults (caja gris)
+        const cfg = servicioConfig[s.nombre] ?? {
+          icono: "bi-box",
+          color: "#888",
+        };
+        
+        // Generar HTML del Card
+        lista.innerHTML += `
+            <div class="servicio-card" onclick="elegirServicio(${s.id})">
+                <!-- Icono del servicio coloreado -->
+                <div class="servicio-card-icon" style="color:${cfg.color};">
+                    <i class="bi ${cfg.icono}"></i>
+                </div>
+                <!-- Información del servicio -->
+                <div class="servicio-card-info">
+                    <p class="servicio-card-nombre">${s.nombre}</p>
+                    <p class="servicio-card-desc">${s.descripcion ?? ""}</p>
+                </div>
+                <!-- Indicador: ir al siguiente paso -->
+                <i class="bi bi-arrow-right servicio-card-arrow"></i>
+            </div>`;
+      });
+
+      //  TRANSICIÓN: SKELETON → LISTA
+      skeleton.style.display = "none";
+      // Mostrar lista de cards
+      lista.style.display = "block";
+      
+    } catch (e) {
+      // Si hay error HTTP o JSON parsing → mostrar mensaje de error
+      console.error("Error al cargar servicios:", e);
+      // Mostrar mensaje de error en el modal
+      lista.innerHTML = `<p style="color:#555; text-align:center;">Error al cargar servicios</p>`;
+    }
+  }
+
+  // Se ejecuta cuando el modal termina de abrirse
+  modal.addEventListener("shown.bs.modal", function () { cargarServicios(); });
+
+  // Redirige al wizard con el id del servicio elegido
+  function elegirServicio(idServicio) {
+    window.location.href = `/index.php/cliente/nuevo-pedido/${idServicio}`;
+  }
 
   // OBTENER Y PINTAR LA LISTA DE PEDIDOS
   async function obtenerPedidos() {
@@ -42,8 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // ── Pintar las filas
-      // El número empieza en data.length y baja con numero-- (Mas Reciente)
+      // Pintar las filas - El número empieza en data.length y baja con numero-- (Mas Reciente)
       let numero = data.length;
       data.forEach((p) => {
         tabla.innerHTML += `
@@ -131,33 +204,27 @@ document.addEventListener("DOMContentLoaded", function () {
   obtenerPedidos();
 });
 
-// FUNCIONES HELPER
-// Iguales a las del pedido_helper.php pero en JavaScript, porque JS no puede llamar funciones PHP directamente
+// Equivalentes a las del pedido_helper.php pero en JavaScript
 
 /**
- * badgeEstado()
- * ─────────────
- * Genera el HTML del badge de estado.
- * La clase CSS define el color (ver mis_pedidos.css)
- * @param {string} estado - estado del pedido desde la BD
- * @returns {string} HTML del badge
+ * Genera HTML de badge coloreado según el estado del pedido
  */
 function badgeEstado(estado) {
-  // 'estado-' + 'en_proceso' = 'estado-en_proceso' (clase CSS)
+  // Generar nombre de clase CSS: 'estado-' + estado en minúsculas
   const clase = "estado-" + estado.toLowerCase();
-  // replace("_", " ") convierte 'EN_PROCESO' → 'EN PROCESO'
+  
+  // Generar texto visible:
+  // toUpperCase(): convertir a MAYÚSCULAS - replace("_", " "): reemplazar guión bajo por espacio
   return `<span class="badge-estado ${clase}">${estado.toUpperCase().replace("_", " ")}</span>`;
 }
 
 /**
- * badgePrioridad()
- * ─────────────────
- * Genera el HTML del badge de prioridad.
- * @param {string} prio - prioridad del pedido desde la BD
- * @returns {string} HTML del badge
+ * Genera HTML de badge coloreado según la prioridad del pedido
  */
 function badgePrioridad(prio) {
+  // Generar nombre de clase CSS: 'prio-' + prioridad en minúsculas
   const clase = "prio-" + prio.toLowerCase();
-  // charAt(0).toUpperCase() + slice(1) = 'alta' → 'Alta'
+
+  // Generar texto visible: Primera letra mayúscula + resto minúsculas
   return `<span class="badge-prio ${clase}">${prio.charAt(0).toUpperCase() + prio.slice(1)}</span>`;
 }

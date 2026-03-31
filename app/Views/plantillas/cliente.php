@@ -74,13 +74,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= base_url('cliente/nuevo-pedido') ?>"
-                        class="nav-link-item <?= (uri_string() == 'cliente/nuevo-pedido') ? 'active' : '' ?>">
-                        <span class="nav-icon"><i class="bi bi-plus-circle"></i></span>
-                        <span class="nav-text">Nuevo Pedido</span>
-                    </a>
-                </li>
-                <li>
                     <a href="<?= base_url('cliente/notificaciones') ?>"
                         class="nav-link-item <?= (uri_string() == 'cliente/notificaciones') ? 'active' : '' ?>">
                         <span class="nav-icon"><i class="bi bi-bell"></i></span>
@@ -91,8 +84,9 @@
                     </a>
                 </li>
             </ul>
-
-            <p class="nav-section-label mt-3">CONFIGURACIÓN</p>
+            
+            <!-- En Vista si puede ser Necesario -->
+            <!-- <p class="nav-section-label mt-3">CONFIGURACIÓN</p>
             <ul>
                 <li>
                     <a href="<?= base_url('cliente/perfil') ?>"
@@ -101,7 +95,7 @@
                         <span class="nav-text">Mi Perfil</span>
                     </a>
                 </li>
-            </ul>
+            </ul> -->
         </nav>
 
         <!-- Footer del sidebar -->
