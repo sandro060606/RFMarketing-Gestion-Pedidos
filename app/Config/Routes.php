@@ -21,6 +21,15 @@ $routes->group('admin', ['filter' => 'sesion'], function ($routes) {
     $routes->get('panel', 'Administrador\DashboardController::index'); // ← Administrador
 });
 
+/* USUARIOS */
+$routes->get('admin/usuarios',                      'Administrador\UsuarioController::index');
+$routes->get('admin/usuarios/listar',               'Administrador\UsuarioController::listar');
+$routes->post('admin/usuarios/registrar',           'Administrador\UsuarioController::registrar');
+$routes->get('admin/usuarios/buscar/(:num)',        'Administrador\UsuarioController::buscar/$1');
+$routes->put('admin/usuarios/actualizar/(:num)',    'Administrador\UsuarioController::actualizar/$1');
+$routes->put('admin/usuarios/toggle/(:num)',        'Administrador\UsuarioController::toggleEstado/$1');
+
+
 /* GRUPO CLIENTE */
 $routes->group('cliente', ['filter' => 'sesion'], function ($routes) {
     //Lista de Pedidos
